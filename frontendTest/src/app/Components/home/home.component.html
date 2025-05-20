@@ -1,0 +1,108 @@
+<p-toast></p-toast>
+<p-confirmDialog></p-confirmDialog>
+
+<div >
+ <h2 style="font-size: 2.5rem; font-weight: bold; text-align: center; font-family: Arial, sans-serif;">
+  CRUD Prueba Técnica Consware
+</h2>
+
+  <button 
+    pButton 
+    type="button" 
+    label="Agregar Vehículo" 
+    icon="pi pi-plus" 
+    class="p-button-rounded p-button-success p-button-lg p-shadow-4" 
+    (click)="showAddDialog()" 
+    style="min-width: 180px;"
+  ></button>
+</div>
+<br>
+<br>
+<br>
+<p-table 
+  [value]="vehicleList" 
+  [paginator]="true" 
+  [rows]="10" 
+  [responsiveLayout]="'scroll'" 
+  class="p-shadow-2" 
+  Style="border-radius: 6px; overflow: hidden;"
+>
+  <ng-template pTemplate="header">
+    <tr>
+      <th>ID</th>
+      <th>Marca</th>
+      <th>Modelo</th>
+      <th>Año</th>
+      <th>Color</th>
+      <th style="width: 170px;">Acciones</th>
+    </tr>
+  </ng-template>
+
+  <ng-template pTemplate="body" let-vehicle>
+    <tr>
+      <td>{{vehicle.id}}</td>
+      <td>{{vehicle.brand}}</td>
+      <td>{{vehicle.model}}</td>
+      <td>{{vehicle.year}}</td>
+      <td>{{vehicle.color}}</td>
+      <td>
+        <button 
+          pButton 
+          type="button" 
+          icon="pi pi-pencil" 
+          label="Editar" 
+          class="p-button-text p-button-info p-mr-2" 
+          (click)="showEditDialog(vehicle)"
+          style="min-width: 70px;"
+        ></button>
+        <button 
+          pButton 
+          type="button" 
+          icon="pi pi-trash" 
+          label="Eliminar" 
+          class="p-button-text p-button-danger" 
+          (click)="showDeleteDialog(vehicle)"
+          style="min-width: 85px;"
+        ></button>
+      </td>
+    </tr>
+  </ng-template>
+</p-table>
+
+<p-dialog 
+  header="{{ isEdit ? 'Editar Vehículo' : 'Agregar Vehículo' }}" 
+  [(visible)]="displayDialog" 
+  [modal]="true" 
+  [style]="{ width: '480px' }" 
+  [closable]="false"
+  [dismissableMask]="true"
+>
+  <form class="p-fluid p-formgrid p-grid" (ngSubmit)="saveVehicle()">
+
+    <div class="p-field p-col-12">
+      <label for="brand">Marca</label>
+      <input id="brand" pInputText [(ngModel)]="selectedVehicle.brand" name="brand" required />
+    </div>
+
+    <div class="p-field p-col-12">
+      <label for="model">Modelo</label>
+      <input id="model" pInputText [(ngModel)]="selectedVehicle.model" name="model" required />
+    </div>
+
+    <div class="p-field p-col-12">
+      <label for="year">Año</label>
+      <p-inputNumber [(ngModel)]="selectedVehicle.year" name="year" [min]="1900" [max]="2100" [showButtons]="true"></p-inputNumber>
+    </div>
+
+    <div class="p-field p-col-12">
+      <label for="color">Color</label>
+      <input id="color" pInputText [(ngModel)]="selectedVehicle.color" name="color" required />
+    </div>
+
+    <div class="p-col-12 p-d-flex p-jc-end p-gap-3 p-mt-3">
+      <button pButton type="button" label="Cancelar" class="p-button-text" (click)="hideDialog()"></button>
+      <button pButton type="submit" label="Guardar" [disabled]="!isFormValid()" class="p-button-primary"></button>
+    </div>
+
+  </form>
+</p-dialog>

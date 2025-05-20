@@ -1,0 +1,19 @@
+<p-toast></p-toast>
+
+<div class="login-container">
+  <p-panel header="Iniciar Sesión" [styleClass]="'p-shadow-3'" [style]="{ width: '400px' }">
+    <form (ngSubmit)="login()" class="login-form">
+      <div class="form-row">
+        <label for="email">Correo electrónico</label>
+        <input id="email" type="email" pInputText [(ngModel)]="user.userMail" name="email" required />
+      </div>
+
+      <div class="form-row">
+        <label for="password">Contraseña</label>
+        <input id="password" type="password" pPassword [(ngModel)]="user.userPassword" name="password" feedback="false" required />
+      </div>
+
+      <button pButton type="submit" label="Iniciar Sesión" icon="pi pi-sign-in" class="p-button-primary full-width-btn"></button>
+    </form>
+  </p-panel>
+</div>
