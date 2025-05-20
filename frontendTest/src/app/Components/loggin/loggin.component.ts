@@ -11,6 +11,7 @@ import { LogginService } from '../../Services/loggin.service';
 import { Router } from '@angular/router';
 import { ToastModule } from 'primeng/toast';
 import { MessageService } from 'primeng/api';
+import { AuthServiceServiceService } from '../../Services/auth-service-service.service';
 
 @Component({
   selector: 'app-loggin',
@@ -36,7 +37,8 @@ export class LogginComponent {
   submitted: boolean = false;
   errorMessage: string = '';
 
-  constructor(private logginService: LogginService, private router: Router, private messageService: MessageService) { }
+  constructor(private logginService: LogginService, private router: Router,
+    private authServiceServiceService:AuthServiceServiceService , private messageService: MessageService) { }
 
   login() {
     this.submitted = true;
@@ -49,9 +51,11 @@ export class LogginComponent {
 
     this.logginService.login(this.user).subscribe({
       next: (token: string) => {
-        console.log('Token recibido:', token);
 
-        localStorage.setItem('authToken', token);
+           this.authServiceServiceService.saveToken(token);
+        console.log('Token recibido:', token);
+     
+       
 
         this.router.navigate(['home']);
       },

@@ -1,7 +1,8 @@
 import { Component } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { Router, RouterOutlet } from '@angular/router';
 import { MenuItem } from 'primeng/api';
 import { MenubarModule } from 'primeng/menubar';
+import { AuthServiceServiceService } from '../../../Services/auth-service-service.service';
 
 @Component({
   selector: 'app-nabvar',
@@ -12,6 +13,13 @@ import { MenubarModule } from 'primeng/menubar';
 })
 export class NabvarComponent {
 
+
+  constructor(private authServiceServiceService:AuthServiceServiceService,
+    private router: Router
+  )
+{
+  
+}
    items: MenuItem[] = [];
 
   ngOnInit() {
@@ -19,19 +27,9 @@ export class NabvarComponent {
       {
         label: 'Home',
         icon: 'pi pi-home',
-        routerLink: ['/']
+        routerLink: ['/home']
       },
-      {
-        label: 'Vehículos',
-        icon: 'pi pi-search',
-        items: [
-          { label: 'Guardar', icon: 'pi pi-save', routerLink: ['/vehiculos/guardar'] },
-          { label: 'Editar',  icon: 'pi pi-pencil', routerLink: ['/vehiculos/editar'] },
-          { label: 'Eliminar', icon: 'pi pi-trash', routerLink: ['/vehiculos/eliminar'] },
-          { label: 'Obtener todos', icon: 'pi pi-list', routerLink: ['/vehiculos'] },
-          { label: 'Obtener por id', icon: 'pi pi-filter', routerLink: ['/vehiculos/por-id'] }
-        ]
-      },
+  
       {
         label: 'Iniciar Sesión',
         icon: 'pi pi-sign-in',
@@ -46,7 +44,8 @@ export class NabvarComponent {
   }
 
   logout() {
-    // Lógica de cierre de sesión, p.ej., limpiar tokens, redirigir
+  this.authServiceServiceService.logout();
+  this.router.navigate(['']);
     console.log('Usuario ha cerrado sesión');
   }
 }
